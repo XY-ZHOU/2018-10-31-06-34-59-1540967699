@@ -1,5 +1,28 @@
 function count_same_elements(collection) {
-  //在这里写入代码
+  let res = [];
+  let groupingCountObj = grouping_count(collection);
+  for (key in groupingCountObj) {
+    let obj = {};
+    obj.key = key;
+    obj.count = groupingCountObj[key];
+    res.push(obj);
+  }
+  return res;
 }
 
+function grouping_count(collection) {
+  let groupingCountObj = {};
+  for (let i = 0; i < collection.length; i++) {
+    if (judgeKeyInObj(groupingCountObj, collection[i])) {
+      groupingCountObj[collection[i]] = 1;
+    } else {
+      groupingCountObj[collection[i]]++;
+    }
+  }
+  return groupingCountObj;
+}
+
+function judgeKeyInObj(obj, key) {
+  return (!obj.hasOwnProperty(key));
+}
 module.exports = count_same_elements;
