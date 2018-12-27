@@ -1,15 +1,13 @@
 function collect_same_elements(collection_a, collection_b) {
-  let res=[];
-  for(let i = 0; i<collection_a.length;i++){
-    if(judgeStrInArr(collection_b[0],collection_a[i])){
-      res.push(collection_a[i]);
-    }
-  }
-  return res;
+  let arr = double_to_one(collection_b);
+  return collection_a.filter(function(element) {
+    return arr.indexOf(element) != -1;
+  });
 }
 
-function judgeStrInArr(arr, str) {
-  return (arr.indexOf(str) != -1);
+function double_to_one(collection) {
+  return collection.reduce(function(acc, cur) {
+    return acc.concat(cur);
+  }, []);
 }
-
 module.exports = collect_same_elements;
