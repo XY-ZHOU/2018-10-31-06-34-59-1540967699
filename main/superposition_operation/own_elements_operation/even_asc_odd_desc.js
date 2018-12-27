@@ -2,18 +2,10 @@
 var even_asc_odd_desc = function(collection) {
   let evenArr = [];
   let unevenArr = [];
-  for (let i = 0; i < collection.length; i++) {
-    if (judgeEven(collection[i])) {
-      evenArr.push(collection[i]);
-    } else {
-      unevenArr.push(collection[i]);
-    }
+  for (let element of collection) {
+    (element % 2 === 0) ? evenArr.push(element): unevenArr.push(element);
   }
   return evenArr.sort(sortAsc).concat(unevenArr.sort(sortDesc));
-}
-
-function judgeEven(num) {
-  return (num % 2 === 0);
 }
 
 function sortAsc(a, b) {
