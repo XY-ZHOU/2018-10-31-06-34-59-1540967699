@@ -1,21 +1,12 @@
 'use strict';
 
 function get_letter_interval(number_a, number_b) {
-  let arr = [];
-  if (compare(number_a, number_b)) {
-    for (let i = number_a; i >= number_b; i--) {
-      arr.push(String.fromCharCode(i+96));
-    }
-  } else {
-    for (let i = number_a; i <= number_b; i++) {
-      arr.push(String.fromCharCode(i+96));
-    }
+  let start = (number_a >= number_b) ? number_b : number_a;
+  let end = (number_a >= number_b) ? number_a : number_b;
+  let result = [];
+  for (let i = start; i <= end; i++) {
+    result.push(String.fromCharCode(i + 96));
   }
-  return arr;
+  return (number_a <= number_b) ? result : result.reverse();
 }
-
-function compare(num_a, num_b) {
-  return (num_a - num_b >= 0);
-}
-
 module.exports = get_letter_interval;
