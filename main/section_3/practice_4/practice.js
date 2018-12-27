@@ -1,51 +1,41 @@
 function create_updated_collection(collection_a, object_b) {
-  let countSameElemArr = count_same_elements(collection_a);
-  for (let i = 0; i < countSameElemArr.length; i++) {
-    if (judgeElementsExist(object_b.value, countSameElemArr[i].key)) {
-      countSameElemArr[i].count = countSameElemArr[i].count - parseInt(countSameElemArr[i].count / 3);
-    }
-  }
-  return countSameElemArr;
-}
-
-function judgeElementsExist(str_a, str_b) {
-  return str_a.indexOf(str_b) != -1;
-}
-
-function count_same_elements(collection) {
-  let res = [];
-  let groupingCountObj = grouping_count(collection);
-  for (key in groupingCountObj) {
-    let obj = {};
-    obj.key = key;
-    obj.count = groupingCountObj[key];
-    res.push(obj);
-  }
-  return res;
+  return covertObjToArray(fullThreeMinusOne(grouping_count(collection_a), object_b));
 }
 
 function grouping_count(collection) {
-  let groupingCountObj = {};
-  for (let i = 0; i < collection.length; i++) {
-    if (judgeStr(collection[i])) {
-      groupingCountObj[collection[i].slice(0, 1)] = Number(collection[i].slice(2));
+  let countObj = {};
+  collection.map((element) => {
+    let key = element.match(/[a-zA-Z]+/g)[0];
+    let matchValue = element.match(/[0-9]+/g);
+    let count = matchValue ? matchValue : 1;
+    if (countObj[key]) {
+      countObj[key] += parseInt(count);
     } else {
-      if (judgeKeyInObj(groupingCountObj, collection[i])) {
-        groupingCountObj[collection[i]] = 1;
-      } else {
-        groupingCountObj[collection[i]]++;
-      }
+      countObj[key] = parseInt(count);
+    }
+  })
+  return countObj;
+}
+
+function fullThreeMinusOne(obj, object_b) {
+  for (let key in obj) {
+    if (isElementsExist(object_b.value, key)) {
+      obj[key] = obj[key] - parseInt(obj[key] / 3);
     }
   }
-  return groupingCountObj;
+  return obj;
 }
 
-function judgeKeyInObj(obj, key) {
-  return (!obj.hasOwnProperty(key));
+function isElementsExist(arr, str) {
+  return arr.includes(str);
 }
 
-function judgeStr(str) {
-  var reg = /^[a-z]-\d{1,2}$/;
-  return reg.test(str);
+function covertObjToArray(obj) {
+  return Object.keys(obj).map((element) => {
+    return {
+      key: element,
+      count: obj[element]
+    };
+  });
 }
 module.exports = create_updated_collection;
