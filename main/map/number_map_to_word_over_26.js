@@ -1,27 +1,20 @@
 'use strict';
+const LETTER = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var number_map_to_word_over_26 = function(collection) {
-  for (let i = 0; i < collection.length; i++) {
-    let n = rounding(collection[i]);
-    switch (n) {
-      case 0:
-        collection[i] = String.fromCharCode(collection[i] + 96);
-        break;
-      case 1:
-        collection[i] = numberToString(collection[i], 1);
-        break;
-      case 2:
-        collection[i] = numberToString(collection[i], 2);
-        break;
-    }
+  let res = [];
+  for (let element of collection) {
+    res.push(getLetterByCode(parseInt(element)));
   }
-  return collection;
+  return res;
 };
 
-function rounding(num) {
-  return parseInt(num / 26);
-}
-
-function numberToString(number, n) {
-  return String.fromCharCode(n + 96) + String.fromCharCode(number - 26 * n + 96);
+function getLetterByCode(code) {
+  if (code <= LETTER.length) {
+    return LETTER[code - 1];
+  } else {
+    let firstLetter = LETTER[Math.floor((code - 1) / LETTER.length) - 1];
+    let secondLetter = LETTER[(code - 1) % LETTER.length];
+    return firstLetter + secondLetter;
+  }
 }
 module.exports = number_map_to_word_over_26;
