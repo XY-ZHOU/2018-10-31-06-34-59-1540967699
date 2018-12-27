@@ -1,28 +1,25 @@
 function count_same_elements(collection) {
-  let res = [];
-  let groupingCountObj = grouping_count(collection);
-  for (key in groupingCountObj) {
-    let obj = {};
-    obj.key = key;
-    obj.count = groupingCountObj[key];
-    res.push(obj);
-  }
-  return res;
+  return covertObjToArray(grouping_count(collection));
 }
 
 function grouping_count(collection) {
-  let groupingCountObj = {};
-  for (let i = 0; i < collection.length; i++) {
-    if (judgeKeyInObj(groupingCountObj, collection[i])) {
-      groupingCountObj[collection[i]] = 1;
+  let countObj = {};
+  collection.map((element) => {
+    if (countObj[element]) {
+      countObj[element] = parseInt(countObj[element]) + 1;
     } else {
-      groupingCountObj[collection[i]]++;
+      countObj[element] = 1;
     }
-  }
-  return groupingCountObj;
+  });
+  return countObj;
 }
 
-function judgeKeyInObj(obj, key) {
-  return (!obj.hasOwnProperty(key));
+function covertObjToArray(obj) {
+  return Object.keys(obj).map((element) => {
+    return {
+      key: element,
+      count: obj[element]
+    };
+  });
 }
 module.exports = count_same_elements;
