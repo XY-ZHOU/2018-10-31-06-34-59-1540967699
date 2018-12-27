@@ -1,16 +1,17 @@
 'use strict';
 
 function amount_even(collection) {
+  let res = collect_all_even(collection);
   let sum = 0;
-  for (let i = 0; i < collection.length; i++) {
-    if (judgeEven(collection[i])) {
-      sum += collection[i];
-    }
+  for (let element of res) {
+    sum += element;
   }
   return sum;
 }
 
-function judgeEven(num) {
-  return num % 2 == 0;
+function collect_all_even(collection) {
+  return collection.filter(function(element) {
+    return element % 2 === 0;
+  });
 }
 module.exports = amount_even;
