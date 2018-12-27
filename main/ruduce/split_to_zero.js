@@ -1,11 +1,11 @@
 'use strict';
+
 function spilt_to_zero(number, interval) {
-  let num=number;
-  let arr=[];
-  arr.push(num);
-  while(num>0) {
-    num=Number((num-interval).toFixed(1));
-    arr.push(num);
+  let arr = [];
+  arr.push(number);
+  while (number > 0) {
+    number = Number((number - interval).toFixed(1));
+    arr.push(number);
   }
   return arr;
 }
