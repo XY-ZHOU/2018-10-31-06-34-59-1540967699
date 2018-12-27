@@ -1,61 +1,54 @@
 'use strict';
 var even_group_calculate_average = function(collection) {
-  let res = [];
-  let arr = new Array(parseInt(collection.length / 2));
-  let evenArr = [];
-  chooseEvenElemts(collection, arr);
-  chooseEven(arr, evenArr);
-  if (evenArr == false) {
-    res.push(0);
-  } else {
-    let sum_one = 0;
-    let sum_two = 0;
-    let sum_three = 0;
-    let count_one = 0;
-    let count_two = 0;
-    let count_three = 0;
-    for (let i = 0; i < evenArr.length; i++) {
-      if (compare(evenArr[i], 10)) {
-        sum_one += evenArr[i];
-        count_one++;
-      } else if (compare(evenArr[i], 100)) {
-        sum_two += evenArr[i];
-        count_two++;
-      } else if (compare(evenArr[i], 1000)) {
-        sum_three += evenArr[i];
-        count_three++;
-      }
-    }
-    if (sum_one == 0 && sum_two == 0) {
-      res.push(sum_three / count_three);
-    } else {
-      res.push(sum_one / count_one);
-      res.push(sum_two / count_two);
-      res.push(sum_three / count_three);
+  let evenIndexArray = getEvenIndexArray(collection);
+  let arrayOfEven = getEvenArray(evenIndexArray);
+  if (arrayOfEven.length === 0) {
+    return [0];
+  }
+  let result = [];
+  let digitObj = generateDigitObj(arrayOfEven);
+  for (let prop in digitObj) {
+    if (digitObj[prop].length > 0) {
+      result.push(calculateAverage(digitObj[prop]));
     }
   }
-  return res;
-}
+  return result;
+};
 
-function chooseEvenElemts(collection, arr) {
-  for (let i = 1; i < collection.length; i += 2) {
-    arr[parseInt(i / 2)] = collection[i];
+function generateDigitObj(collection) {
+  let maxDigit = getMax(collection).toString().length;
+  let digitObj = {};
+  for (let i = 1; i <= maxDigit; i++) {
+    digitObj[i.toString()] = [];
   }
-}
-
-function chooseEven(arr, evenArr) {
-  for (let i = 0; i < arr.length; i++) {
-    if (judgeEven(arr[i])) {
-      evenArr.push(arr[i]);
-    }
+  for (let item of collection) {
+    digitObj[item.toString().length].push(item);
   }
+  return digitObj;
 }
 
-function judgeEven(num) {
-  return num % 2 == 0;
+function getMax(collection) {
+  return collection.reduce((a, b) => {
+    return a > b ? a : b;
+  });
 }
 
-function compare(num_a, num_b) {
-  return num_a < num_b;
+function getEvenArray(collection) {
+  return collection.filter((element) => {
+    return element % 2 === 0;
+  })
+}
+
+function getEvenIndexArray(collection) {
+  return collection.filter((element, index) => {
+    return index % 2 === 1;
+  })
+}
+
+function calculateAverage(array) {
+  let sum = array.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue;
+  });
+  return Math.round(sum / array.length);
 }
 module.exports = even_group_calculate_average;
